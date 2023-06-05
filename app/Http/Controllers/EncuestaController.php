@@ -17,16 +17,23 @@ class EncuestaController extends Controller
 
   public function guardar(Request $request)
   {
-    $respuestas = $request->input('respuestas');
+    $respuestas = $request->all();
 
-    foreach ($respuestas as $encuestaId => $respuesta) {
-      Respuesta::create([
-        'encuesta_id' => $encuestaId,
-        'user_id' => auth()->id(),
-        'respuesta' => $respuesta,
-      ]);
+    foreach ($respuestas as $key => $respuesta) {
+      if (strpos($key, "encuesta_") !== false) {
+        $encuestaId = str_replace("encuesta_", "", $key);
+
+        Respuesta::updateOrCreate(
+          [
+            'encuesta_id' => $encuestaId,
+            'user_id' => auth()->id()
+          ],
+          [
+            'respuesta' => $respuesta
+          ]
+        );
+      }
     }
-
     return redirect()->back()->with('success', 'Respuestas guardadas exitosamente.');
   }
 }

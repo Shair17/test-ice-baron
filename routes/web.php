@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Encuesta;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,9 +22,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/encuesta', function () {
-  return view('encuesta');
+  $encuestas  = Encuesta::get();
+  return view('encuesta', compact('encuestas'));
 })->middleware('auth');
 
-Route::post('/encuesta/guardar', 'EncuestaController@guardar')->name('encuesta.guardar');
-
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/encuesta/guardar', 'App\Http\Controllers\EncuestaController@guardar')->name('encuesta.guardar');
