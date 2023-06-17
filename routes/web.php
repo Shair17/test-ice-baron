@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Encuesta;
+use App\Http\Controllers\EncuestaController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,9 +21,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/encuesta', function () {
-  $encuestas  = Encuesta::get();
-  return view('encuesta', compact('encuestas'));
-})->middleware('auth');
-
-Route::post('/encuesta/guardar', 'App\Http\Controllers\EncuestaController@guardar')->name('encuesta.guardar');
+Route::group(['middleware' => ["auth.basic"]], function () {
+  Route::get('/encuesta', [EncuestaController::class, 'mostrar']);
+  Route::get('/resultados', [EncuestaController::class, 'resultados'])->name('resultados');
+  Route::post('/encuesta/guardar', 'App\Http\Controllers\EncuestaController@guardar')->name('encuesta.guardar');
+});

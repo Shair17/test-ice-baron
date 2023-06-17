@@ -10,7 +10,7 @@ class EncuestaController extends Controller
 {
   public function mostrar()
   {
-    $encuestas = Encuesta::all();
+    $encuestas = Encuesta::paginate(5);
 
     return view('encuesta', compact('encuestas'));
   }
@@ -34,6 +34,20 @@ class EncuestaController extends Controller
         );
       }
     }
-    return redirect()->back()->with('success', 'Respuestas guardadas exitosamente.');
+
+    return redirect()->route('resultados')->with('success', 'Respuestas guardadas exitosamente.');
+  }
+
+  public function resultados()
+  {
+    $encuestas = Encuesta::all();
+    $opciones = [
+      'Rara Vez o Nunca',
+      'Pocas Veces',
+      'Algunas veces',
+      'Muchas veces',
+      'Muy Frecuentemente o Siempre'
+    ];
+    return view('resultados', compact('encuestas', 'opciones'));
   }
 }

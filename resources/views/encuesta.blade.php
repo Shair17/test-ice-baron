@@ -27,15 +27,15 @@
                   <label class="form-check-label" for="encuesta_{{$encuesta->id}}_{{$indice}}">{{$opcion}}</label>
 
                   @if ($encuesta->get_answer(Auth::user()->id) == $indice)
-                  <input class="form-check-input" type="radio" id="encuesta_{{$encuesta->id}}_{{$indice}}" name="encuesta_{{$encuesta->id}}" value="{{$indice}}" checked>
+                  <input class="form-check-input" type="radio" id="encuesta_{{$encuesta->id}}_{{$indice}}" name="encuesta_{{$encuesta->id}}" value="{{$indice}}" checked required>
                   @else
-                  <input class="form-check-input" type="radio" id="encuesta_{{$encuesta->id}}_{{$indice}}" name="encuesta_{{$encuesta->id}}" value="{{$indice}}">
+                  <input class="form-check-input" type="radio" id="encuesta_{{$encuesta->id}}_{{$indice}}" name="encuesta_{{$encuesta->id}}" value="{{$indice}}" required>
                   @endif
                 </div>
                 @endforeach
               </div>
             @endforeach
-
+            {!! $encuestas->links() !!}
             <div class="d-grid">
               <button type="submit" class="btn btn-primary btn-lg">Enviar respuestas</button>
             </div>
@@ -45,4 +45,5 @@
     </div>
   </div>
 </div>
+
 @endsection
